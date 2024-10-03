@@ -17,12 +17,27 @@ public class Slingshot : MonoBehaviour
     public GameObject projectile;
     public bool aimingMode;
 
+    //LineRenderer
+    private LineRenderer lineRenderer;
+
 
     void Awake() {
         Transform launchPointTrans = transform.Find("LaunchPoint");
         launchPoint = launchPointTrans.gameObject;
         launchPoint.SetActive( false );
         launchPos = launchPointTrans.position;
+
+        //Initialize line renderer
+        lineRenderer = GetComponent<LineRenderer>();
+        lineRenderer.positionCount = 2;
+        lineRenderer.enabled = false; //Disables it initially
+        lineRenderer.startWidth = 0.1f;
+        lineRenderer.endWidth = 0.1f;
+        lineRenderer.material = new Material(Shader.Find("Sprites/Default"));
+        lineRenderer.startColor = Color.red;
+        lineRenderer.endColor = Color.red;
+
+
     }
 
     void OnMouseEnter() {
@@ -44,6 +59,10 @@ public class Slingshot : MonoBehaviour
         projectile.transform.position = launchPos;
         //Set it to isKinematic for now
         projectile.GetComponent<Rigidbody>().isKinematic = true;
+
+        //Enables line renderer when aiming starts
+        lineRenderer.enabled = true;
+        lineRenderer.SetPosition(0, launchPos);
     }
 
     void Update() {
@@ -69,6 +88,9 @@ public class Slingshot : MonoBehaviour
         Vector3 projPos = launchPos + mouseDelta;
         projectile.transform.position = projPos;
 
+        //Update line renderer end point to follow mouse position
+        lineRenderer.SetPosition(1, projPos);
+
         if( Input.GetMouseButtonUp(0) ) { //This 0 is a zero, not an o
             //The mouse has been released
             aimingMode = false;
@@ -85,6 +107,9 @@ public class Slingshot : MonoBehaviour
             Instantiate<GameObject>(projLinePrefab, projectile.transform);
             projectile = null;
             MissionDemolition.SHOT_FIRED();
+
+            //Disable line renderer
+            lineRenderer.enabled = false;
         }
     }
 
