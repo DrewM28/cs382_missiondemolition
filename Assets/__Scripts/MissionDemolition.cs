@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public enum GameMode {
     idle,
@@ -45,7 +46,7 @@ public class MissionDemolition : MonoBehaviour
             Destroy( castle );
         }
 
-        //Destory old projectiles if they exist (the method is not yet written)
+        //Destory old projectiles if they exist
         Projectile.DESTORY_PROJECTILES();
 
         //Instantiate the new castle
@@ -82,8 +83,13 @@ public class MissionDemolition : MonoBehaviour
             //Zoom out to show both
             FollowCam.SWITCH_VIEW( FollowCam.eView.both );
 
-            //Start the next level in 2 seconds;
-            Invoke("NextLevel", 2f);
+            if( level == 3 ) {
+                Invoke( "SwitchToGameOver", 2f );
+            }
+            else {
+                //Start the next level in 2 seconds;
+                Invoke("NextLevel", 2f);
+            }
         }
     }
 
@@ -94,6 +100,10 @@ public class MissionDemolition : MonoBehaviour
             shotsTaken = 0;
         }
         StartLevel();
+    }
+
+    void SwitchToGameOver() {
+        SceneManager.LoadScene( "GameOver_Scene" );
     }
 
     //Static method that allows code anywhere to increment shotsTaken
