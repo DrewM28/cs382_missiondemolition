@@ -233,6 +233,7 @@ MonoBehaviour:
   projectilePrefab: {fileID: 2769905069931656618, guid: e050a4f702d4f6e41a9e886dc5001338, type: 3}
   velocityMult: 10
   projLinePrefab: {fileID: 8253895454194625008, guid: 048c1c3042a5d5543905ca996187b6d7, type: 3}
+  bowlingBallPrefab: {fileID: 2769905069931656618, guid: 1eb152dc529e72144ad59c595e017df8, type: 3}
   launchPoint: {fileID: 0}
   launchPos: {x: 0, y: 0, z: 0}
   projectile: {fileID: 0}

@@ -9,6 +9,7 @@ public class Slingshot : MonoBehaviour
     public GameObject projectilePrefab;
     public float velocityMult = 10f;
     public GameObject projLinePrefab;
+    public GameObject bowlingBallPrefab; //adding a bowling ball prefab
 
     // Fields set dynamically
     [Header("Dynamic")]
@@ -19,6 +20,9 @@ public class Slingshot : MonoBehaviour
 
     //LineRenderer
     private LineRenderer lineRenderer;
+
+    //tracks number of shots
+    private int shotCount = 0;
 
 
     void Awake() {
@@ -53,8 +57,18 @@ public class Slingshot : MonoBehaviour
     void OnMouseDown() {
         //The player has pressed the mouse button while over slingshot
         aimingMode = true;
-        //Instantiate a projectile
-        projectile = Instantiate( projectilePrefab ) as GameObject;
+
+        if( shotCount == 0) {
+            projectile = Instantiate( bowlingBallPrefab ) as GameObject;
+        }
+        else {
+            //Instantiate a projectile
+            projectile = Instantiate( projectilePrefab ) as GameObject;
+        }
+
+        //Increments shot count
+        shotCount++;
+        
         //Start it at the launch point
         projectile.transform.position = launchPos;
         //Set it to isKinematic for now
