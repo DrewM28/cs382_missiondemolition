@@ -5,6 +5,9 @@ using UnityEngine;
 [RequireComponent( typeof(Rigidbody) )]
 public class Projectile : MonoBehaviour
 {
+    private AudioSource audioSource;
+    public AudioClip whistleSound;
+
     const int LOOKBACK_COUNT = 10;
     static List<Projectile> PROJECTILES = new List<Projectile>();
 
@@ -29,9 +32,23 @@ public class Projectile : MonoBehaviour
         deltas.Add( 1000 );
 
         PROJECTILES.Add( this );
+
+        //Adding sound
+        audioSource = gameObject.AddComponent<AudioSource>();
+        audioSource.clip = whistleSound;
+        audioSource.loop = true;
+        audioSource.playOnAwake = false;
+        audioSource.spatialBlend = 1.0f;
+
+        audioSource.Play();
     }
 
     void FixedUpdate() {
+        //Adjusts pitch or volume based on speed
+        float speed = GetComponent<Rigidbody>().velocity.magnitude;
+        audioSource.volume = Mathf.Clamp( speed / 20f, 0.1f, 1f );
+        audioSource.pitch = Mathf.Clamp( speed / 10f, 0.8f, 2f );
+
         if( rigid.isKinematic || !awake ) return;
 
         Vector3 deltaV3 = transform.position - prevPos;

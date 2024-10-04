@@ -127,3 +127,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2bee79ec90bed584a8eca6f214bf3e39, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  whistleSound: {fileID: 8300000, guid: ec130285f245cb14190324e3778d30a6, type: 3}
+  _awake: 1
